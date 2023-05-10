@@ -17,7 +17,7 @@ from nltk.stem.snowball import SnowballStemmer
 
 from bicm import BipartiteGraph as BiG
 
-class melt:
+class prcmdnn:
     """
     
     """
