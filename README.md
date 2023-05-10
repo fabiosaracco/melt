@@ -1,12 +1,12 @@
 # README
 
-AMEBA (A Maximum Entropy Multiple Test Analysis) toolkit is intended to provide the 
+**melt** (Maximum Entropy Linguistic Tool) provides the tool for the detection of shared narratives using a maximum entropy approach, as the analysis performed in Dainelli et al, Agronomy 2023, 13(2), 576 
 
 ## Setup
 
 Just:
 
-pip install git+https://github.com/fabiosaracco/toolbox.git
+pip install git+https://github.com/fabiosaracco/melt
 
 
 ## Contents (so far)
