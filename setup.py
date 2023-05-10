@@ -14,5 +14,5 @@ setuptools.setup(
     url='https://github.com/fabiosaracco/melt',
     license='MIT',
     packages=['melt'],
-    install_requires=['numpy','nltk','pandas','string','tqdm','bicm'],
+    install_requires=['numpy','nltk','pandas','tqdm','bicm'],
 )
