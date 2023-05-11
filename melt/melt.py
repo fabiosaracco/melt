@@ -102,13 +102,13 @@ class melt:
             # I want to return an explicit dictionary
             for key in self.MyGraph.projected_rows_adj_list.keys():
                 new_key=aux.MyGraph.rows_dict[key]
-                self.id_proj=new_key]=[aux.MyGraph.rows_dict[other_key]for other_key in self.MyGraph.projected_rows_adj_list[key]]  
+                self.id_proj[new_key]=[aux.MyGraph.rows_dict[other_key]for other_key in self.MyGraph.projected_rows_adj_list[key]]  
         else:
             self.token_proj={}
             # I want to return an explicit dictionary
             for key in self.MyGraph.projected_columns_adj_list.keys():
                 new_key=aux.MyGraph.columns_dict[key]
-                self.token_proj=new_key]=[aux.MyGraph.columns_dict[other_key]for other_key in self.MyGraph.projected_columns_adj_list[key]]  
+                self.token_proj[new_key]=[aux.MyGraph.columns_dict[other_key]for other_key in self.MyGraph.projected_columns_adj_list[key]]  
 
             
     def save_me(self):
