@@ -49,10 +49,7 @@ class melt:
         self.stemmer = SnowballStemmer(self.lang, ignore_stopwords=True)
         
         # get the biadjacency llist
-        #self.get_ball()
-        
-        # randomize the bipartite network using the "celebrated" BiCM
-        #self.get_bicm()
+        self.get_ball()
         
     
     def get_ball(self):
@@ -85,7 +82,7 @@ class melt:
         
     def get_bicm(self, **kwrds):
         '''
-        It takes as parameters the same one as in bicm.
+        It takes as parameters the same ones as in bicm.
         '''
         self.MyGraph = BiG()
         self.MyGraph.set_adjacency_list(self.biadj_list)
@@ -94,8 +91,12 @@ class melt:
         
     def get_projection(self, **kwrds):
         '''
-        It takes as parameters the same one as in bicm.
+        It takes as parameters the same ones as in bicm.
         '''
+
+        if not hasattr(self, MyGraph):
+            self.get_bicm()
+
         self.MyGraph.compute_projection(**kwrds)
         if self.MyGraph.rows_projection:
             self.id_proj={}
