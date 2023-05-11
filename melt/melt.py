@@ -68,10 +68,11 @@ class melt:
     
     def text2tokens(self, text):
         stop_words = list(stopwords.words(self.lang))
+        bad_char=['©', '–', '‘', '’', '“', '”']
         word_tokens = [wt.lower() for wt in word_tokenize(text)]
         out=[]
         for w in word_tokens:
-            if not (w in stop_words) and not (w in string.punctuation) and not ('.' in w) and not (',' in w) and not w.isnumeric():
+            if not (w in stop_words) and not (w in bad_char) and not (w in string.punctuation) and not ('.' in w) and not (',' in w) and not w.isnumeric():
                 # I am removing:
                 # - stop words;
                 # - punctuation
@@ -97,9 +98,18 @@ class melt:
         '''
         self.MyGraph.compute_projection(**kwrds)
         if self.MyGraph.rows_projection:
-            self.id_proj=self.MyGraph.projected_rows_adj_list
+            self.id_proj={}
+            # I want to return an explicit dictionary
+            for key in self.MyGraph.projected_rows_adj_list.keys():
+    		new_key=aux.MyGraph.rows_dict[key]
+    		self.id_proj=new_key]=[aux.MyGraph.rows_dict[other_key]for other_key in self.MyGraph.projected_rows_adj_list[key]]  
         else:
-            self.token_proj=self.MyGraph.projected_cols_adj_list
+            self.token_proj={}
+            # I want to return an explicit dictionary
+            for key in self.MyGraph.projected_columns_adj_list.keys():
+    		new_key=aux.MyGraph.columns_dict[key]
+    		self.token_proj=new_key]=[aux.MyGraph.columns_dict[other_key]for other_key in self.MyGraph.projected_columns_adj_list[key]]  
+
             
     def save_me(self):
         pass
