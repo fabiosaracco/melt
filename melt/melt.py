@@ -94,7 +94,7 @@ class melt:
         It takes as parameters the same ones as in bicm.
         '''
 
-        if not hasattr(self, MyGraph):
+        if not hasattr(self, 'MyGraph'):
             self.get_bicm()
 
         self.MyGraph.compute_projection(**kwrds)
