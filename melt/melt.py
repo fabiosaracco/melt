@@ -38,7 +38,7 @@ class melt:
             self.data_col=data.columns
             
             if len(self.data_col)>2 and columns==None:
-                raise 'Too many columns in the DataFrame: select the columns with the text to be analysed.'
+                raise Exception('Too many columns in the DataFrame: select the columns with the text to be analysed.')
             elif len(self.data_col)>2:
                 assert type(columns)==list, 'Columns should be a list of integers, selecting the proper columns to be analysed. The first one is going to be the identifier of the text (i.e. the id), the second one the text to be analysed'
                 assert all([type(c)==int for c in columns]), 'Columns should be a list of integers, selecting the proper columns to be analysed. The first one is going to be the identifier of the text (i.e. the id), the second one the text to be analysed'
@@ -63,6 +63,8 @@ class melt:
                 else:
                     assert all([c<len(self.data[0]) for c in columns]), "Not all entries in the 'columns' list are in the proper interval"
                     self.data=[[data[c] for c in columns] for data in self.data]
+        else:
+            raise Exception('I cannot recognize the input data type')
                     
                 
 
@@ -93,21 +95,22 @@ class melt:
         '''
         self.biadj_list={}
         for i in range(self.l_data):
-            if self.data_type=='pandas_dataframe' or self.data_type=='pandas_dataframe':
+            if self.data_type=='pandas_dataframe':
                 _text=self.data.iloc[i][self.data_col[1]]
-                tokes=self.text2tokens(_text)  
-                if self.data_type='pandas_dataframe':
-                    _id=self.data.iloc[i][self.data_col[0]]
-                    self.biadj_list[_id]=tokens
-                else:
-                    self.biadj_list[i]=tokens
+                tokens=self.text2tokens(_text)  
+                _id=self.data.iloc[i][self.data_col[0]]
+                self.biadj_list[_id]=tokens
+            elif self.data_type=='pandas_series':
+                _text=self.data.iloc[i]
+                tokens=self.text2tokens(_text)  
+                self.biadj_list[i]=tokens
             elif self.data_type=='list':
                 _text=self.data[i]
-                tokes=self.text2tokens(_text)  
+                tokens=self.text2tokens(_text)  
                 self.biadj_list[i]=tokens
             elif self.data_type=='lol':
                 _text=self.data[i]
-                tokes=self.text2tokens(_text)  
+                tokens=self.text2tokens(_text)  
                 self.biadj_list[self.data[i][0]]=tokens
                     
         
