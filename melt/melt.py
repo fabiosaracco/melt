@@ -21,16 +21,51 @@ class melt:
     """
     
     """
-    def __init__(self, data, lang=None, binary=True):
+    def __init__(self, data, lang=None, binary=True, columns=None):
         '''
         :param data pd.DataFrame : the data. So far only two columns dataframes are allowed. I am assuming that the first is the id, the second is the text. 
         :param lang string: the language to be analyzed. Default is English.
         :param binary bool: if the analysis should be based on a binary or weighted bipartite network. Default is binary
+        :param columns list: list of the columns to use in the case of pandas DataFrames. It is a list of integers.
         '''
         
         # read data
         self.data=data
-        self.data_col=data.columns
+        
+        if str(type(self.data))=="<class 'pandas.core.frame.DataFrame'>":
+            # data is a pandas DataFrame
+            self.data_type='pandas_dataframe'
+            self.data_col=data.columns
+            
+            if len(self.data_col)>2 and columns==None:
+                raise 'Too many columns in the DataFrame: select the columns with the text to be analysed.'
+            elif len(self.data_col)>2:
+                assert type(columns)==list, 'Columns should be a list of integers, selecting the proper columns to be analysed. The first one is going to be the identifier of the text (i.e. the id), the second one the text to be analysed'
+                assert all([type(c)==int for c in columns]), 'Columns should be a list of integers, selecting the proper columns to be analysed. The first one is going to be the identifier of the text (i.e. the id), the second one the text to be analysed'
+                assert all([c<len(self.data_col) for c in columns]), "Not all entries in the 'columns' list are in the proper interval"
+                self.data_col=data.columns[columns]
+                self.data=data[columns]
+                
+                
+        elif str(type(self.data))=="<class 'pandas.core.series.Series'>":
+            # data is a pandas Series
+            self.data_type='pandas_series'
+        
+        elif str(type(self.data))=="list":
+            if str(type(self.data[0]))=='str':
+                # data is a list
+                self.data_type='list'
+            elif str(type(self.data[0]))=='list':
+                # data is a list of list
+                self.data_type='lol'
+                if columns==None:
+                    assert all([len(c)==2 for c in self.data]), 'Too many columns in the list: select the columns with the text to be analysed.'
+                else:
+                    assert all([c<len(self.data[0]) for c in columns]), "Not all entries in the 'columns' list are in the proper interval"
+                    self.data=[[data[c] for c in columns] for data in self.data]
+                    
+                
+
         
         # read language
         if lang is None:
@@ -58,10 +93,24 @@ class melt:
         '''
         self.biadj_list={}
         for i in range(self.l_data):
-            _id=self.data.iloc[i][self.data_col[0]]
-            _text=self.data.iloc[i][self.data_col[1]]
-            self.biadj_list[_id]=self.text2tokens(_text)  
-    
+            if self.data_type=='pandas_dataframe' or self.data_type=='pandas_dataframe':
+                _text=self.data.iloc[i][self.data_col[1]]
+                tokes=self.text2tokens(_text)  
+                if self.data_type='pandas_dataframe':
+                    _id=self.data.iloc[i][self.data_col[0]]
+                    self.biadj_list[_id]=tokens
+                else:
+                    self.biadj_list[i]=tokens
+            elif self.data_type=='list':
+                _text=self.data[i]
+                tokes=self.text2tokens(_text)  
+                self.biadj_list[i]=tokens
+            elif self.data_type=='lol':
+                _text=self.data[i]
+                tokes=self.text2tokens(_text)  
+                self.biadj_list[self.data[i][0]]=tokens
+                    
+        
     
     def text2tokens(self, text):
         stop_words = list(stopwords.words(self.lang))
