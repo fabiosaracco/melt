@@ -117,7 +117,7 @@ class melt:
     
     def text2tokens(self, text):
         stop_words = list(stopwords.words(self.lang))
-        bad_char=['©', '–', '‘', '’', '“', '”']
+        bad_char=['©', '–', '‘', '’', '“', '”', "''", "'s",'``']
         word_tokens = [wt.lower() for wt in word_tokenize(text)]
         out=[]
         for w in word_tokens:
