@@ -130,7 +130,8 @@ class melt:
         if self.binary:
             return np.unique(out)
         else:
-            return np.unique(out, return_counts=True)
+            aux=np.unique(out, return_counts=True)
+            return dict(zip(aux[0], aux[1]))
         
     def get_bicm(self, **kwrds):
         '''
