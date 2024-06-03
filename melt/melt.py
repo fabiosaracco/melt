@@ -51,11 +51,11 @@ class melt:
             # data is a pandas Series
             self.data_type='pandas_series'
         
-        elif str(type(self.data))=="list":
-            if str(type(self.data[0]))=='str':
+        elif type(self.data)==list:
+            if type(self.data[0])==str:
                 # data is a list
                 self.data_type='list'
-            elif str(type(self.data[0]))=='list':
+            elif type(self.data[0])==list:
                 # data is a list of list
                 self.data_type='lol'
                 if columns==None:
