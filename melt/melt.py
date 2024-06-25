@@ -157,8 +157,9 @@ class melt:
                 # I want to return an explicit dictionary
                 for key in self.MyGraph.projected_rows_adj_list.keys():
                     new_key=self.MyGraph.rows_dict[key]
-                    self.id_proj[new_key]=[self.MyGraph.rows_dict[other_key] for other_key in self.MyGraph.projected_rows_adj_list[key]]  
-        else:
+                    self.id_proj[new_key]=[self.MyGraph.rows_dict[other_key] for other_key in self.MyGraph.projected_rows_adj_list[key]] 
+ 
+        if self.MyGraph.cols_projection::
             if hasattr(self.MyGraph, 'projected_columns_adj_list'):
                 self.token_proj={}
                 # I want to return an explicit dictionary
