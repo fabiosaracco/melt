@@ -2,7 +2,7 @@ import os, sys, json
 import numpy as np
 import pandas as pd
 
-from tqdm import tqdm, trange
+from tqdm.auto import tqdm, trange
 
 import string
 
@@ -94,7 +94,7 @@ class melt:
         It returns the biadjacency list associated to the bipartite network of id and tokens
         '''
         self.biadj_list={}
-        for i in range(self.l_data):
+        for i in trange(self.l_data, leave=True):
             if self.data_type=='pandas_dataframe':
                 _text=self.data.iloc[i][self.data_col[1]]
                 tokens=self.text2tokens(_text)  
